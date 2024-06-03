@@ -6,9 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "start": "yarn start",
-    "start:dev": "yarn start:dev",
-    "build": "yarn build",
+    "start": "nest start",
+    "start:dev": "nest start:dev",
+    "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
