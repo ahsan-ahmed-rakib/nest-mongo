@@ -11,8 +11,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import mongoose from 'mongoose';
-import { CreateUserDto } from './dto/CreateUser.dto';
-import { UpdateUserDto } from './dto/UpdateUser.dto';
+import { CreateUserDto } from '../dto/CreateUser.dto';
+import { UpdateUserDto } from '../dto/UpdateUser.dto';
 import { UsersService } from './users.service';
 
 @Controller('users')
