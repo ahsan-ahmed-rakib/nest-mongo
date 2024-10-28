@@ -3,7 +3,6 @@ import {
   Controller,
   HttpException,
   Param,
-  Patch,
   Post,
   Put,
   UploadedFile,
@@ -26,7 +25,7 @@ export class HomeController {
     return this.homeService.createHome(homeDto);
   }
 
-  @Patch('home/:id')
+  @Put('home/:id')
   @UsePipes(new ValidationPipe())
   async updateUser(@Param('id') id: string, @Body() homeDto: HomeDto) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
