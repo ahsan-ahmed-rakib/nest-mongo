@@ -58,6 +58,6 @@ export class UsersController {
     if (!isValid) throw new HttpException('Invalid ID', 400);
     const deletedUser = await this.usersService.deleteUser(id);
     if (!deletedUser) throw new HttpException('User not found', 404);
-    return { message: 'Deleted Successfully' };
+    return { message: 'Deleted Successfully', id: id };
   }
 }
