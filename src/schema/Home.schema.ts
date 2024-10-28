@@ -5,6 +5,8 @@ export class Home {
   @Prop({ required: false })
   profilePicture: string;
   @Prop({ required: false })
+  profileId: string;
+  @Prop({ required: false })
   name: string;
   @Prop({ required: false })
   designation: string;

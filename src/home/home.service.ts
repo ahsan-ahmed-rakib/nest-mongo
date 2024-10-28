@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UploadApiResponse } from 'cloudinary';
 import { Model } from 'mongoose';
@@ -10,8 +10,16 @@ import { HomeDto } from '../dto/Home.dto';
 export class HomeService {
   constructor(@InjectModel(Home.name) private homeModel: Model<Home>) {}
 
-  async createHome(homeDto: HomeDto): Promise<Home> {
-    const createdHome = new this.homeModel(homeDto);
+  async createHome(homeDto: HomeDto, file: Express.Multer.File): Promise<Home> {
+    if (!file) {
+      throw new BadRequestException('File is required'); // Throw an exception if the file is missing
+    }
+    const imageUploadResult = await this.uploadImage(file);
+    const createdHome = new this.homeModel({
+      ...homeDto,
+      profilePicture: imageUploadResult.secure_url,
+      profileId: imageUploadResult.public_id,
+    });
     return await createdHome.save();
   }
 

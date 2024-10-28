@@ -6,6 +6,8 @@ export class HomeDto {
   @IsOptional()
   profilePicture: string;
 
+  profileId: string;
+
   @IsOptional()
   @IsString()
   name: string;

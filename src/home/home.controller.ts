@@ -20,9 +20,14 @@ export class HomeController {
   constructor(private homeService: HomeService) {}
 
   @Post('home')
+  @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
-  async createHome(@Body() homeDto: HomeDto) {
-    return this.homeService.createHome(homeDto);
+  async createHome(
+    @Body() homeDto: HomeDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (!file) return new HttpException('File is required', 400);
+    return this.homeService.createHome(homeDto, file);
   }
 
   @Put('home/:id')
