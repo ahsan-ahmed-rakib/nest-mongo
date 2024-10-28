@@ -12,4 +12,8 @@ export class HomeService {
     const createdHome = new this.homeModel(homeDto);
     return await createdHome.save();
   }
+
+  updateHome(id: string, homeDto: HomeDto) {
+    return this.homeModel.findByIdAndUpdate(id, homeDto, { new: true });
+  }
 }
