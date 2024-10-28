@@ -23,8 +23,12 @@ export class HomeService {
     return await createdHome.save();
   }
 
-  updateHome(id: string, homeDto: HomeDto) {
-    return this.homeModel.findByIdAndUpdate(id, homeDto, { new: true });
+  async updateHome(id: string, homeDto: Partial<HomeDto>) {
+    return this.homeModel.findByIdAndUpdate(
+      id,
+      { $set: homeDto },
+      { new: true },
+    );
   }
 
   // image update start

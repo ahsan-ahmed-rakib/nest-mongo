@@ -31,25 +31,40 @@ export class HomeController {
   }
 
   @Put('home/:id')
-  @UsePipes(new ValidationPipe())
-  async updateUser(@Param('id') id: string, @Body() homeDto: HomeDto) {
-    const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) return new HttpException('Inalid ID', 400);
-    const updateHome = await this.homeService.updateHome(id, homeDto);
-    if (!updateHome) throw new HttpException('Data not found', 404);
-    return updateHome;
-  }
-
-  // image upload
-  // Endpoint to upload a new image
-  @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadImage(@UploadedFile() file: Express.Multer.File) {
-    const result = await this.homeService.uploadImage(file);
-    return {
-      url: result.secure_url, // URL of the uploaded image
-      publicId: result.public_id, // ID of the image for future reference
-    };
+  @UsePipes(new ValidationPipe())
+  async updateHome(
+    @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() homeDto: HomeDto,
+    @Body('publicId') publicId: string, // Get the old image's publicId if available
+  ) {
+    // Validate the ID
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if (!isValid) return new HttpException('Invalid ID', 400);
+
+    let profilePicture: string | undefined;
+    let newPublicId: string | undefined;
+
+    if (file) {
+      if (publicId) {
+        await this.homeService.deleteImage(publicId);
+      }
+
+      const uploadResult = await this.homeService.uploadImage(file);
+      profilePicture = uploadResult.secure_url;
+      newPublicId = uploadResult.public_id;
+    }
+
+    const updateHome = await this.homeService.updateHome(id, {
+      ...homeDto,
+      ...(profilePicture && { profilePicture }),
+      ...(newPublicId && { profileId: newPublicId }),
+    });
+
+    if (!updateHome) throw new HttpException('Data not found', 404);
+
+    return updateHome;
   }
 
   // Endpoint to update an existing image
