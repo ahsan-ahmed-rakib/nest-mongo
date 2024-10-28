@@ -7,5 +7,9 @@ export class UpdateUserDto {
 
   @IsOptional()
   @IsString()
+  password?: string;
+
+  @IsOptional()
+  @IsString()
   avatar?: string;
 }
