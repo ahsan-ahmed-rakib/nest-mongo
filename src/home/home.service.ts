@@ -10,6 +10,10 @@ import { HomeDto } from '../dto/Home.dto';
 export class HomeService {
   constructor(@InjectModel(Home.name) private homeModel: Model<Home>) {}
 
+  async getHome() {
+    return this.homeModel.find();
+  }
+
   async createHome(homeDto: HomeDto, file: Express.Multer.File): Promise<Home> {
     if (!file) {
       throw new BadRequestException('File is required'); // Throw an exception if the file is missing

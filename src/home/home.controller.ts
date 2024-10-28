@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpException,
   Param,
   Post,
@@ -28,6 +29,11 @@ export class HomeController {
   ) {
     if (!file) return new HttpException('File is required', 400);
     return this.homeService.createHome(homeDto, file);
+  }
+
+  @Get('home')
+  getHome() {
+    return this.homeService.getHome();
   }
 
   @Put('home/:id')
