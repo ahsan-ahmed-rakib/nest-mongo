@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "typeRoots": ["node_modules/@types"], // Ensure this line is present
+    "strict": true,
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
