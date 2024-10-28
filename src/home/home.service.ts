@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
+import { UploadApiResponse } from 'cloudinary';
 import { Model } from 'mongoose';
+import cloudinary from 'src/cloudinary/cloudinary.config';
 import { Home } from 'src/schema/Home.schema';
 import { HomeDto } from '../dto/Home.dto';
 
