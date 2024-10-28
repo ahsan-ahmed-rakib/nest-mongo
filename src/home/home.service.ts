@@ -32,12 +32,12 @@ export class HomeService {
   }
 
   async deleteImage(publicId: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      cloudinary.uploader.destroy(publicId, (error, result) => {
-        if (error) reject(error);
-        resolve();
-      });
-    });
+    try {
+      const result = await cloudinary.uploader.destroy(publicId); // Delete the image using its public ID
+      return result; // Return the result of deletion
+    } catch (error) {
+      throw new Error(`Failed to delete image`); // Handle errors appropriately
+    }
   }
 
   // image update end
