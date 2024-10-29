@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UploadApiResponse } from 'cloudinary';
+import cloudinary from 'cloudinary/cloudinary.config';
+import { SkillDto } from 'dto/skill.dto';
 import { Model } from 'mongoose';
-import cloudinary from 'src/cloudinary/cloudinary.config';
-import { SkillDto } from 'src/dto/skill.dto';
-import { Skill } from 'src/schema/Skill.schema';
+import { Skill } from 'schema/Skill.schema';
 
 @Injectable()
 export class SkillService {

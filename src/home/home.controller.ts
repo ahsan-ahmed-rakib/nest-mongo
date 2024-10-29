@@ -13,8 +13,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { HomeDto } from 'dto/Home.dto';
 import mongoose from 'mongoose';
-import { HomeDto } from 'src/dto/Home.dto';
 import { HomeService } from './home.service';
 
 @Controller()

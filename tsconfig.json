@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "moduleResolution": "node",
+    "paths": {
+      "*": ["src/*"]
+    },
     "typeRoots": ["node_modules/@types"], // Ensure this line is present
     "strict": true,
     "module": "commonjs",
@@ -19,5 +23,6 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "include": ["src"]
 }

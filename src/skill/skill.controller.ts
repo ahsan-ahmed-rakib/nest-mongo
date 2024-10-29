@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import mongoose from 'mongoose';
-import { SkillDto } from 'src/dto/skill.dto';
+import { SkillDto } from 'dto/skill.dto';
 import { SkillService } from './skill.service';
 
 @Controller('skill')
