@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UploadApiResponse } from 'cloudinary';
 import { Model } from 'mongoose';
@@ -57,5 +61,13 @@ export class HomeService {
     }
   }
 
-  // image update end
+  async deleteHome(id: string): Promise<void> {
+    const home = await this.homeModel.findById(id);
+    console.log(home);
+    if (!home) throw new NotFoundException('Data not found');
+    if (home.profileId) {
+      await this.deleteImage(home.profileId);
+    }
+    return this.homeModel.findByIdAndDelete(id);
+  }
 }

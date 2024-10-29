@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   Param,
@@ -73,21 +74,13 @@ export class HomeController {
     return updateHome;
   }
 
-  // Endpoint to update an existing image
-  @Put('update')
-  @UseInterceptors(FileInterceptor('file'))
-  async updateImage(
-    @UploadedFile() file: Express.Multer.File,
-    @Body('publicId') publicId: string,
-  ) {
-    // Delete the old image
-    await this.homeService.deleteImage(publicId);
-
-    // Upload the new image
-    const result = await this.homeService.uploadImage(file);
-    return {
-      url: result.secure_url, // New URL of the uploaded image
-      publicId: result.public_id, // New ID of the image
-    };
+  @Delete('home/:id')
+  async deleteHome(@Param('id') id: string) {
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if (!isValid) {
+      throw new HttpException('Invalid ID', 400);
+    }
+    await this.homeService.deleteHome(id);
+    return { message: 'Deleted Successfully', id: id };
   }
 }
