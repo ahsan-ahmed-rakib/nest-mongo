@@ -10,14 +10,4 @@ export class Skill {
   title: string;
 }
 
-@Schema()
-export class TechnicalSkill {
-  @Prop({ required: true })
-  title: string;
-  @Prop({ required: true })
-  data: Skill;
-}
-
 export const SkillSchema = SchemaFactory.createForClass(Skill);
-export const TechnicalSkillSchema =
-  SchemaFactory.createForClass(TechnicalSkill);
