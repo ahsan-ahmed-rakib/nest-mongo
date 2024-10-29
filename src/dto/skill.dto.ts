@@ -12,3 +12,9 @@ export class SkillDto {
   @IsString()
   title: string;
 }
+
+export class TechDto {
+  @IsString()
+  @IsNotEmpty()
+  title: string;
+}

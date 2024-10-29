@@ -1,14 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UploadApiResponse } from 'cloudinary';
-import cloudinary from 'cloudinary/cloudinary.config';
-import { SkillDto } from 'dto/skill.dto';
 import { Model } from 'mongoose';
-import { Skill } from 'schema/Skill.schema';
+import cloudinary from 'src/cloudinary/cloudinary.config';
+import { SkillDto, TechDto } from 'src/dto/skill.dto';
+import { Skill, Tech } from 'src/schema/Skill.schema';
 
 @Injectable()
 export class SkillService {
-  constructor(@InjectModel(Skill.name) private skillModel: Model<Skill>) {}
+  constructor(
+    @InjectModel(Skill.name) private skillModel: Model<Skill>,
+    @InjectModel(Tech.name) private techModel: Model<Tech>,
+  ) {}
 
   async createSkill(
     skillDto: SkillDto,
@@ -63,5 +66,14 @@ export class SkillService {
     } catch (error) {
       throw new Error(`Failed to delete image: ${error}`);
     }
+  }
+
+  async createTech(techDto: TechDto) {
+    const tech = new this.techModel(techDto);
+    return await tech.save();
+  }
+
+  async updateTech(id: string, techDto: TechDto) {
+    return this.techModel.findByIdAndUpdate(id, techDto, { new: true });
   }
 }

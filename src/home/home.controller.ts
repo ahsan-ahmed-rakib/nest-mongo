@@ -13,9 +13,9 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { HomeDto } from 'dto/Home.dto';
 import mongoose from 'mongoose';
 import { HomeService } from './home.service';
+import { HomeDto } from 'src/dto/Home.dto';
 
 @Controller()
 export class HomeController {

@@ -11,3 +11,11 @@ export class Skill {
 }
 
 export const SkillSchema = SchemaFactory.createForClass(Skill);
+
+@Schema()
+export class Tech {
+  @Prop({ required: true })
+  title: string;
+}
+
+export const TechSchema = SchemaFactory.createForClass(Tech);

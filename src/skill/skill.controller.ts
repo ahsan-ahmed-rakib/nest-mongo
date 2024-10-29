@@ -5,6 +5,7 @@ import {
   Get,
   HttpException,
   Param,
+  Patch,
   Post,
   Put,
   UploadedFile,
@@ -14,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import mongoose from 'mongoose';
-import { SkillDto } from 'dto/skill.dto';
+import { SkillDto, TechDto } from 'src/dto/skill.dto';
 import { SkillService } from './skill.service';
 
 @Controller('skill')
@@ -79,5 +80,22 @@ export class SkillController {
     if (!isValid) throw new HttpException('Invalid ID', 400);
     await this.skillService.deleteSkill(id);
     return { message: 'Delete Successfully', id: id };
+  }
+
+  @Post('technical')
+  @UsePipes(new ValidationPipe())
+  createTechnical(@Body() techDto: TechDto) {
+    console.log(techDto);
+    return this.skillService.createTech(techDto);
+  }
+
+  @Patch('technical/:id')
+  @UsePipes(new ValidationPipe())
+  async updateTechnical(@Param('id') id: string, @Body() techDto: TechDto) {
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if (!isValid) throw new HttpException('Invalid ID', 400);
+    const updatedTech = await this.skillService.updateTech(id, techDto);
+    if (!updatedTech) throw new HttpException('User not found', 404);
+    return { message: 'Updated Successfully', data: updatedTech };
   }
 }
