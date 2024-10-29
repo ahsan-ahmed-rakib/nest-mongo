@@ -63,7 +63,6 @@ export class HomeService {
 
   async deleteHome(id: string): Promise<void> {
     const home = await this.homeModel.findById(id);
-    console.log(home);
     if (!home) throw new NotFoundException('Data not found');
     if (home.profileId) {
       await this.deleteImage(home.profileId);
