@@ -85,7 +85,6 @@ export class SkillController {
   @Post('technical')
   @UsePipes(new ValidationPipe())
   createTechnical(@Body() techDto: TechDto) {
-    console.log(techDto);
     return this.skillService.createTech(techDto);
   }
 
