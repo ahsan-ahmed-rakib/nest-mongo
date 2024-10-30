@@ -15,7 +15,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import mongoose from 'mongoose';
-import { HomeDto } from 'src/dto/Home.dto';
+import { HomeDto } from '../dto/Home.dto';
 import { HomeService } from './home.service';
 
 @ApiTags('Home')
