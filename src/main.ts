@@ -9,11 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // enable cors
-  app.enableCors({
-    origin: 'https://masum-api.up.railway.app/', // Allow requests only from this origin
-    methods: 'GET,POST,PUT,PATCH,DELETE', // Allowed HTTP methods
-    credentials: true, // Allow cookies to be sent
-  });
+  app.enableCors();
 
   //swagger
   const config = new DocumentBuilder()
