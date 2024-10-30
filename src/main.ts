@@ -10,7 +10,7 @@ async function bootstrap() {
 
   // enable cors
   app.enableCors({
-    origin: 'http://localhost:5000', // Allow requests only from this origin
+    origin: 'https://masum-api.up.railway.app/', // Allow requests only from this origin
     methods: 'GET,POST,PUT,PATCH,DELETE', // Allowed HTTP methods
     credentials: true, // Allow cookies to be sent
   });
