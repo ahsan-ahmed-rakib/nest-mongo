@@ -10,8 +10,7 @@ async function bootstrap() {
 
   // enable cors
   app.enableCors({
-    allowedHeaders: '*',
-    origin: '*',
+    origin: true,
   });
 
   //swagger

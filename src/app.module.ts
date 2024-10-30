@@ -20,8 +20,6 @@ dotenv.config();
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(cors({ origin: 'http://localhost:5000', credentials: true }))
-      .forRoutes('*');
+    consumer.apply(cors({ credentials: true })).forRoutes('*');
   }
 }
