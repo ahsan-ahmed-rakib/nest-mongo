@@ -13,10 +13,12 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import { HomeDto } from 'src/dto/Home.dto';
 import { HomeService } from './home.service';
 
+@ApiTags('Home')
 @Controller()
 export class HomeController {
   constructor(private homeService: HomeService) {}
@@ -24,6 +26,8 @@ export class HomeController {
   @Post('home')
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: HomeDto })
   async createHome(
     @Body() homeDto: HomeDto,
     @UploadedFile() file: Express.Multer.File,
@@ -40,6 +44,8 @@ export class HomeController {
   @Put('home/:id')
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: HomeDto })
   async updateHome(
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,
@@ -71,7 +77,7 @@ export class HomeController {
 
     if (!updateHome) throw new HttpException('Data not found', 404);
 
-    return updateHome;
+    return { message: 'Updated Successfully', data: updateHome };
   }
 
   @Delete('home/:id')

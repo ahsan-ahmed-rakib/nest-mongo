@@ -14,10 +14,12 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import { SkillDto, TechDto } from 'src/dto/skill.dto';
 import { SkillService } from './skill.service';
 
+@ApiTags('Skills')
 @Controller('skill')
 export class SkillController {
   constructor(private skillService: SkillService) {}
@@ -30,6 +32,8 @@ export class SkillController {
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: SkillDto })
   async createSkill(
     @Body() skillDto: SkillDto,
     @UploadedFile() file: Express.Multer.File,
@@ -45,6 +49,8 @@ export class SkillController {
   @Put(':id')
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: SkillDto })
   async updateSkill(
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File | undefined, // Allow file to be undefined
@@ -84,6 +90,7 @@ export class SkillController {
 
   @Post('tech')
   @UsePipes(new ValidationPipe())
+  @ApiBody({ type: TechDto })
   async createTechnical(@Body() techDto: TechDto) {
     const data = await this.skillService.createTech(techDto);
     return { message: 'Created Successfully', data: data };
@@ -91,6 +98,7 @@ export class SkillController {
 
   @Patch('tech/:id')
   @UsePipes(new ValidationPipe())
+  @ApiBody({ type: TechDto })
   async updateTechnical(@Param('id') id: string, @Body() techDto: TechDto) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
     if (!isValid) throw new HttpException('Invalid ID', 400);

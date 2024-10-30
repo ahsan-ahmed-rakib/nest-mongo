@@ -10,17 +10,20 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import { CreateUserDto } from '../dto/CreateUser.dto';
 import { UpdateUserDto } from '../dto/UpdateUser.dto';
 import { UsersService } from './users.service';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Post()
   @UsePipes(new ValidationPipe())
+  @ApiBody({ type: CreateUserDto })
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
   }
@@ -41,6 +44,7 @@ export class UsersController {
 
   @Patch(':id')
   @UsePipes(new ValidationPipe())
+  @ApiBody({ type: UpdateUserDto })
   async updateUser(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
