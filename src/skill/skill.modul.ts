@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Skill, SkillSchema, Tech, TechSchema } from '../schema/Skill.schema';
+import { Skill, SkillSchema, Tech, TechSchema } from 'src/schema/Skill.schema';
 import { SkillController } from './skill.controller';
 import { SkillService } from './skill.service';
 

@@ -12,8 +12,8 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import mongoose from 'mongoose';
-import { CreateUserDto } from '../dto/CreateUser.dto';
-import { UpdateUserDto } from '../dto/UpdateUser.dto';
+import { CreateUserDto } from 'src/dto/CreateUser.dto';
+import { UpdateUserDto } from 'src/dto/UpdateUser.dto';
 import { UsersService } from './users.service';
 
 @ApiTags('Users')

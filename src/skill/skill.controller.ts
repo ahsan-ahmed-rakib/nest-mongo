@@ -16,7 +16,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import mongoose from 'mongoose';
-import { SkillDto, TechDto } from '../dto/skill.dto';
+import { SkillDto, TechDto } from 'src/dto/skill.dto';
 import { SkillService } from './skill.service';
 
 @ApiTags('Skills')

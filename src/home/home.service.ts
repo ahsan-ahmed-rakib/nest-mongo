@@ -6,9 +6,9 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { UploadApiResponse } from 'cloudinary';
 import { Model } from 'mongoose';
-import { Home } from '../schema/Home.schema';
-import { HomeDto } from '../dto/Home.dto';
-import cloudinary from '../cloudinary/cloudinary.config';
+import cloudinary from 'src/cloudinary/cloudinary.config';
+import { HomeDto } from 'src/dto/Home.dto';
+import { Home } from 'src/schema/Home.schema';
 
 @Injectable()
 export class HomeService {
