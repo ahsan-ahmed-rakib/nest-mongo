@@ -82,13 +82,14 @@ export class SkillController {
     return { message: 'Delete Successfully', id: id };
   }
 
-  @Post('technical')
+  @Post('tech')
   @UsePipes(new ValidationPipe())
-  createTechnical(@Body() techDto: TechDto) {
-    return this.skillService.createTech(techDto);
+  async createTechnical(@Body() techDto: TechDto) {
+    const data = await this.skillService.createTech(techDto);
+    return { message: 'Created Successfully', data: data };
   }
 
-  @Patch('technical/:id')
+  @Patch('tech/:id')
   @UsePipes(new ValidationPipe())
   async updateTechnical(@Param('id') id: string, @Body() techDto: TechDto) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
@@ -96,5 +97,15 @@ export class SkillController {
     const updatedTech = await this.skillService.updateTech(id, techDto);
     if (!updatedTech) throw new HttpException('User not found', 404);
     return { message: 'Updated Successfully', data: updatedTech };
+  }
+
+  @Delete('tech/:id')
+  @UsePipes(new ValidationPipe())
+  async deleteTech(@Param('id') id: string) {
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if (!isValid) throw new HttpException('Invalid ID', 400);
+    const deletedTech = await this.skillService.deleteTech(id);
+    if (!deletedTech) throw new HttpException('Data Not Found', 404);
+    return { message: 'Deleted Successfully', id: id };
   }
 }

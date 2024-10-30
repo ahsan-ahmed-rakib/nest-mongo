@@ -69,11 +69,14 @@ export class SkillService {
   }
 
   async createTech(techDto: TechDto) {
-    const tech = new this.techModel(techDto);
-    return await tech.save();
+    return await new this.techModel(techDto).save();
   }
 
   async updateTech(id: string, techDto: TechDto) {
     return this.techModel.findByIdAndUpdate(id, techDto, { new: true });
+  }
+
+  async deleteTech(id: string) {
+    return this.techModel.findByIdAndDelete(id);
   }
 }

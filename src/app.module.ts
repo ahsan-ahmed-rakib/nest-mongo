@@ -1,16 +1,19 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as cors from 'cors';
+import * as dotenv from 'dotenv';
 import { HomeModule } from './home/home.module';
-import { UsersModule } from './users/users.module';
 import { SkillModule } from './skill/skill.modul';
+import { UsersModule } from './users/users.module';
+
+dotenv.config();
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/nest-mongo'),
+    MongooseModule.forRoot(process.env.MONGO_URI),
     UsersModule,
     HomeModule,
-    SkillModule
+    SkillModule,
   ],
   controllers: [],
   providers: [],
