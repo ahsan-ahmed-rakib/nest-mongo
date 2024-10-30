@@ -14,8 +14,8 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import mongoose from 'mongoose';
-import { HomeService } from './home.service';
 import { HomeDto } from 'src/dto/Home.dto';
+import { HomeService } from './home.service';
 
 @Controller()
 export class HomeController {
@@ -44,29 +44,29 @@ export class HomeController {
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,
     @Body() homeDto: HomeDto,
-    @Body('publicId') publicId: string, // Get the old image's publicId if available
+    @Body('profileId') profileId: string, // Get the old image's publicId if available
   ) {
     // Validate the ID
     const isValid = mongoose.Types.ObjectId.isValid(id);
     if (!isValid) return new HttpException('Invalid ID', 400);
 
     let profilePicture: string | undefined;
-    let newPublicId: string | undefined;
+    let newProfileId: string | undefined;
 
     if (file) {
-      if (publicId) {
-        await this.homeService.deleteImage(publicId);
+      if (profileId) {
+        await this.homeService.deleteImage(profileId);
       }
 
       const uploadResult = await this.homeService.uploadImage(file);
       profilePicture = uploadResult.secure_url;
-      newPublicId = uploadResult.public_id;
+      newProfileId = uploadResult.public_id;
     }
 
     const updateHome = await this.homeService.updateHome(id, {
       ...homeDto,
       ...(profilePicture && { profilePicture }),
-      ...(newPublicId && { profileId: newPublicId }),
+      ...(newProfileId && { profileId: newProfileId }),
     });
 
     if (!updateHome) throw new HttpException('Data not found', 404);
