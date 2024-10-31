@@ -19,11 +19,11 @@ import { HomeDto } from 'src/dto/Home.dto';
 import { HomeService } from './home.service';
 
 @ApiTags('Home')
-@Controller()
+@Controller('home')
 export class HomeController {
   constructor(private homeService: HomeService) {}
 
-  @Post('home')
+  @Post()
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
   @ApiConsumes('multipart/form-data')
@@ -36,12 +36,12 @@ export class HomeController {
     return this.homeService.createHome(homeDto, file);
   }
 
-  @Get('home')
+  @Get()
   getHome() {
     return this.homeService.getHome();
   }
 
-  @Put('home/:id')
+  @Put(':id')
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
   @ApiConsumes('multipart/form-data')
@@ -80,12 +80,10 @@ export class HomeController {
     return { message: 'Updated Successfully', data: updateHome };
   }
 
-  @Delete('home/:id')
+  @Delete(':id')
   async deleteHome(@Param('id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) {
-      throw new HttpException('Invalid ID', 400);
-    }
+    if (!isValid) throw new HttpException('Invalid ID', 400);
     await this.homeService.deleteHome(id);
     return { message: 'Deleted Successfully', id: id };
   }

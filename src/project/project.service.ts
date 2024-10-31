@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UploadApiResponse } from 'cloudinary';
 import { Model } from 'mongoose';
@@ -40,7 +40,12 @@ export class ProjectService {
     });
   }
 
-  async deleteProject(id: string) {
+  async deleteProject(id: string): Promise<void> {
+    const project = await this.projectModel.findById(id);
+    if (!project) throw new HttpException('Project not found', 404);
+    if (project.imageId) {
+      await this.deleteImage(project.imageId);
+    }
     return this.projectModel.findByIdAndDelete(id);
   }
 

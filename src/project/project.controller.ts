@@ -1,10 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   Param,
   Post,
+  Put,
   UploadedFile,
   UseInterceptors,
   UsePipes,
@@ -12,6 +14,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import mongoose from 'mongoose';
 import { ProjectDto } from 'src/dto/Project.dto';
 import { ProjectService } from './project.service';
 
@@ -42,5 +45,50 @@ export class ProjectController {
   @Get(':id')
   async getProjectById(@Param('id') id: string) {
     return this.projectService.getProjectById(id);
+  }
+
+  @Put(':id')
+  @UseInterceptors(FileInterceptor('file'))
+  @UsePipes(new ValidationPipe())
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: ProjectDto })
+  async updateProject(
+    @Param('id') id: string,
+    @Body() projectDto: ProjectDto,
+    @Body('imageId') imageId: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if (!isValid) throw new HttpException('Invalid Id', 400);
+
+    let image: string | undefined;
+    let newImageId: string | undefined;
+
+    if (file) {
+      if (imageId) {
+        await this.projectService.deleteImage(imageId);
+      }
+    }
+
+    const result = await this.projectService.uploadImage(file);
+    image: result.secure_url;
+    newImageId: result.public_id;
+
+    const updatedData = await this.projectService.updatProject(id, {
+      ...projectDto,
+      ...(image && { image }),
+      ...(newImageId && { imageId: newImageId }),
+    });
+
+    if (!updatedData) throw new HttpException('Data not found!', 404);
+    return { message: 'Updated Successfully', data: updatedData };
+  }
+
+  @Delete(':id')
+  async deleteProject(@Param('id') id: string) {
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if (!isValid) throw new HttpException('Invalid Id', 400);
+    await this.projectService.deleteProject(id);
+    return { message: 'Deleted Successfully' };
   }
 }
