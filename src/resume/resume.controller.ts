@@ -14,7 +14,7 @@ import { ResumeDto } from 'src/dto/Resume.dto';
 import { ResumeService } from './resume.service';
 
 @ApiTags('Resume')
-@Controller('reume')
+@Controller('resume')
 export class ResumeController {
   constructor(private resumeService: ResumeService) {}
 
