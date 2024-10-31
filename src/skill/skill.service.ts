@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { UploadApiResponse } from 'cloudinary';
 import { Model } from 'mongoose';
 import cloudinary from 'src/cloudinary/cloudinary.config';
-import { SkillDto, TechDto } from 'src/dto/skill.dto';
+import { SkillDto, TechDto } from 'src/dto/Skill.dto';
 import { Skill, Tech } from 'src/schema/Skill.schema';
 
 @Injectable()

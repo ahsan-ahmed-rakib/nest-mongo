@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 import { HomeModule } from './home/home.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { ProjectModule } from './project/project.module';
+import { ResumeModule } from './resume/resume.module';
 import { SkillModule } from './skill/skill.modul';
 import { UsersModule } from './users/users.module';
 
@@ -18,6 +19,7 @@ dotenv.config();
     SkillModule,
     NavbarModule,
     ProjectModule,
+    ResumeModule,
   ],
   controllers: [],
   providers: [],
