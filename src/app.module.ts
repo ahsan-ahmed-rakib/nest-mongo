@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as cors from 'cors';
 import * as dotenv from 'dotenv';
@@ -14,7 +15,8 @@ dotenv.config();
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGO_URI),
+    JwtModule.register({ global: true, secret: '123' }),
+    MongooseModule.forRoot(process.env.MONGO_LOCAL),
     UsersModule,
     HomeModule,
     SkillModule,
