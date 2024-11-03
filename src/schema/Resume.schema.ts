@@ -19,3 +19,36 @@ export class Resume {
 }
 
 export const ResumeSchema = SchemaFactory.createForClass(Resume);
+
+export type PersonalSkillDocument = PersonalSkill & Document;
+
+@Schema()
+export class ProfessionalSkill {
+  @Prop({ required: true })
+  title: string;
+
+  @Prop({ required: true })
+  description: string;
+}
+
+export const ProfessionalSkillSchema =
+  SchemaFactory.createForClass(ProfessionalSkill);
+
+@Schema()
+export class Language {
+  @Prop({ required: true })
+  title: string;
+}
+
+export const LanguageSchema = SchemaFactory.createForClass(Language);
+
+@Schema()
+export class PersonalSkill {
+  @Prop({ type: [ProfessionalSkillSchema], default: [] })
+  professionalSkills: ProfessionalSkill[];
+
+  @Prop({ type: [LanguageSchema], default: [] })
+  languages: Language[];
+}
+
+export const PersonalSkillSchema = SchemaFactory.createForClass(PersonalSkill);
