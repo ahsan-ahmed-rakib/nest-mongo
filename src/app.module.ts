@@ -2,6 +2,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as cors from 'cors';
 import * as dotenv from 'dotenv';
+import { ContactModule } from './contact/contact.module';
 import { HomeModule } from './home/home.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { ProjectModule } from './project/project.module';
@@ -20,6 +21,7 @@ dotenv.config();
     NavbarModule,
     ProjectModule,
     ResumeModule,
+    ContactModule,
   ],
   controllers: [],
   providers: [],
