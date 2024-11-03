@@ -24,8 +24,9 @@ export class UsersController {
   @Post()
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: CreateUserDto })
-  createUser(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.createUser(createUserDto);
+  async createUser(@Body() createUserDto: CreateUserDto) {
+    const data = await this.usersService.createUser(createUserDto);
+    return { message: 'Created Successfully', data: data };
   }
 
   @Get()
@@ -53,7 +54,7 @@ export class UsersController {
     if (!isValid) throw new HttpException('Invalid ID', 400);
     const updatedUser = await this.usersService.updateUser(id, updateUserDto);
     if (!updatedUser) throw new HttpException('User not found', 404);
-    return updatedUser;
+    return { message: 'Updated Successfully', data: updatedUser };
   }
 
   @Delete(':id')
@@ -62,6 +63,6 @@ export class UsersController {
     if (!isValid) throw new HttpException('Invalid ID', 400);
     const deletedUser = await this.usersService.deleteUser(id);
     if (!deletedUser) throw new HttpException('User not found', 404);
-    return { message: 'Deleted Successfully', id: id };
+    return { message: 'Deleted Successfully' };
   }
 }
