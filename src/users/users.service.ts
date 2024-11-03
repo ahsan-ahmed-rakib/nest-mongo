@@ -54,7 +54,7 @@ export class UsersService {
   }
 
   async refreshTokens(refreshToken: string) {
-    const token = await this.refreshTokenModel.findOneAndDelete({
+    const token = await this.refreshTokenModel.findOne({
       token: refreshToken,
       expiryDate: { $gte: new Date().toISOString() },
     });
@@ -75,11 +75,11 @@ export class UsersService {
     const date = new Date();
     date.setDate(date.getDate() + 1);
     const expiryDate = date.toISOString();
-    await this.refreshTokenModel.create({
-      token,
-      userId,
-      expiryDate,
-    });
+    await this.refreshTokenModel.updateOne(
+      { userId },
+      { $set: { token, expiryDate } },
+      { upsert: true },
+    );
   }
 
   getAllUsers() {
