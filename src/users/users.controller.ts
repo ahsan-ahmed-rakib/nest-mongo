@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -15,6 +16,7 @@ import mongoose from 'mongoose';
 import { CreateUserDto } from 'src/dto/CreateUser.dto';
 import { LoginDto } from 'src/dto/Login.dto';
 import { UpdateUserDto } from 'src/dto/UpdateUser.dto';
+import { AuthGuard } from 'src/guards/auth.guard';
 import { RefreshTokenDto } from './../dto/RefreshToken.dto';
 import { UsersService } from './users.service';
 

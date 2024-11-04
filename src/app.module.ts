@@ -15,7 +15,7 @@ dotenv.config();
 
 @Module({
   imports: [
-    JwtModule.register({ global: true, secret: '123' }),
+    JwtModule.register({ global: true, secret: process.env.JWT_SECRET }),
     MongooseModule.forRoot(process.env.MONGO_LOCAL),
     UsersModule,
     HomeModule,

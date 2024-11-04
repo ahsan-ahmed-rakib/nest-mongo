@@ -18,7 +18,19 @@ async function bootstrap() {
     .setTitle('API Documentation')
     .setDescription('API documentation for my Nest.js application')
     .setVersion('1.0')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        in: 'header',
+      },
+      'jwt',
+    )
+    .addSecurityRequirements('jwt')
     .build();
+    
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
 

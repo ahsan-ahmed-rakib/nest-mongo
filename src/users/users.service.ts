@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  HttpException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -90,11 +91,20 @@ export class UsersService {
     return this.userModel.findById(id);
   }
 
-  updateUser(id: string, updateUserDto: UpdateUserDto) {
+  async updateUser(id: string, updateUserDto: UpdateUserDto) {
+    if (updateUserDto.password) {
+      const hashedPassword = await bcrypt.hash(updateUserDto.password, 10);
+      updateUserDto.password = hashedPassword; // Replace with the hashed password
+    }
     return this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true });
   }
 
-  deleteUser(id: string) {
+  async deleteUser(id: string) {
+    const userCount = await this.userModel.countDocuments();
+
+    if (userCount <= 1) {
+      throw new HttpException('Can not delete the only existing user', 400);
+    }
     return this.userModel.findByIdAndDelete(id);
   }
 }
