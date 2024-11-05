@@ -17,7 +17,10 @@ export class AuthGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.tokenFromHeader(request);
-    if (!token) throw new UnauthorizedException('Invalid Token');
+    if (!token)
+      throw new UnauthorizedException(
+        'You are not logged in! Please log in to continue!',
+      );
 
     try {
       const payload = this.JwtService.verify(token);

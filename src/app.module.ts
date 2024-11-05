@@ -3,6 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as cors from 'cors';
 import * as dotenv from 'dotenv';
+import { AuthModule } from './auth/auth.module';
 import { ContactModule } from './contact/contact.module';
 import { HomeModule } from './home/home.module';
 import { NavbarModule } from './navbar/navbar.module';
@@ -17,6 +18,7 @@ dotenv.config();
   imports: [
     JwtModule.register({ global: true, secret: process.env.JWT_SECRET }),
     MongooseModule.forRoot(process.env.MONGO_URI),
+    AuthModule,
     UsersModule,
     HomeModule,
     SkillModule,

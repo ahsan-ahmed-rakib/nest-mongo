@@ -14,12 +14,11 @@ import {
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import { CreateUserDto } from 'src/dto/CreateUser.dto';
-import { LoginDto } from 'src/dto/Login.dto';
 import { UpdateUserDto } from 'src/dto/UpdateUser.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { RefreshTokenDto } from './../dto/RefreshToken.dto';
 import { UsersService } from './users.service';
 
+@UseGuards(AuthGuard)
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
@@ -68,20 +67,5 @@ export class UsersController {
     const deletedUser = await this.usersService.deleteUser(id);
     if (!deletedUser) throw new HttpException('User not found', 404);
     return { message: 'Deleted Successfully' };
-  }
-
-  @Post('login')
-  @UsePipes(new ValidationPipe())
-  @ApiBody({ type: LoginDto })
-  async login(@Body() loginDto: LoginDto) {
-    return this.usersService.loginUser(loginDto);
-    // return { message: 'Login Successfully', data: data };
-  }
-
-  @Post('refresh-token')
-  @UsePipes(new ValidationPipe())
-  @ApiBody({ type: RefreshTokenDto })
-  async refreshToken(@Body() refreshTokenDto: RefreshTokenDto) {
-    return this.usersService.refreshTokens(refreshTokenDto.refreshToken);
   }
 }
