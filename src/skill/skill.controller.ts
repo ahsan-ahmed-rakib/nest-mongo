@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
@@ -18,6 +19,7 @@ import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import { SkillDto, TechDto } from 'src/dto/Skill.dto';
 import { SkillService } from './skill.service';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @ApiTags('Skills')
 @Controller('skill')
@@ -29,6 +31,7 @@ export class SkillController {
     return this.skillService.getSkills();
   }
 
+  @UseGuards(AuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
@@ -46,6 +49,7 @@ export class SkillController {
     };
   }
 
+  @UseGuards(AuthGuard)
   @Put(':id')
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
@@ -80,6 +84,7 @@ export class SkillController {
     return { message: 'Updated Successfully', data: updatedSkill };
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   async deleteSkill(@Param('id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
@@ -88,6 +93,12 @@ export class SkillController {
     return { message: 'Delete Successfully', id: id };
   }
 
+  @Get('tech')
+  async getAllTech() {
+    return this.skillService.getAllTech();
+  }
+
+  @UseGuards(AuthGuard)
   @Post('tech')
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: TechDto })
@@ -96,6 +107,7 @@ export class SkillController {
     return { message: 'Created Successfully', data: data };
   }
 
+  @UseGuards(AuthGuard)
   @Patch('tech/:id')
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: TechDto })
@@ -107,6 +119,7 @@ export class SkillController {
     return { message: 'Updated Successfully', data: updatedTech };
   }
 
+  @UseGuards(AuthGuard)
   @Delete('tech/:id')
   @UsePipes(new ValidationPipe())
   async deleteTech(@Param('id') id: string) {

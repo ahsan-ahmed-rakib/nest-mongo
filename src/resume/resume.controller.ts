@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -18,6 +19,7 @@ import {
   ProfessionalSkillDto,
   ResumeDto,
 } from 'src/dto/Resume.dto';
+import { AuthGuard } from 'src/guards/auth.guard';
 import { PersonalSkill } from 'src/schema/Resume.schema';
 import { ResumeService } from './resume.service';
 
@@ -31,6 +33,7 @@ export class ResumeController {
     return await this.resumeService.getAllResume();
   }
 
+  @UseGuards(AuthGuard)
   @Post()
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: ResumeDto })
@@ -39,12 +42,14 @@ export class ResumeController {
     return { message: 'Created Successfully', data: data };
   }
 
+  @UseGuards(AuthGuard)
   @Get(':id')
   @UsePipes(new ValidationPipe())
   async getResumeById(@Param('id') id: string) {
     return await this.resumeService.getResumeById(id);
   }
 
+  @UseGuards(AuthGuard)
   @Put(':id')
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: ResumeDto })
@@ -53,6 +58,7 @@ export class ResumeController {
     return { message: 'Updated Successfully', data: data };
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   @UsePipes(new ValidationPipe())
   async deleteResume(@Param('id') id: string) {
@@ -60,6 +66,7 @@ export class ResumeController {
     return { message: 'Deleted Successfully' };
   }
 
+  @UseGuards(AuthGuard)
   @Post('personalSkill')
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: PersonalSkillDto })
@@ -73,6 +80,7 @@ export class ResumeController {
     return this.resumeService.findAllPersonalSkill();
   }
 
+  @UseGuards(AuthGuard)
   @Get('personalSkill/:id')
   @UsePipes(new ValidationPipe())
   findOne(@Param('id') id: string) {
@@ -82,6 +90,7 @@ export class ResumeController {
     return this.resumeService.findOnePersonalSkill(id);
   }
 
+  @UseGuards(AuthGuard)
   @Put('personalSkill/:id')
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: PersonalSkillDto })
@@ -99,6 +108,7 @@ export class ResumeController {
     return { message: 'Updated Successfully', data: data };
   }
 
+  @UseGuards(AuthGuard)
   @Delete('personalSkill/:id')
   async remove(@Param('id') id: string) {
     const isValid = Types.ObjectId.isValid(id);
@@ -110,6 +120,7 @@ export class ResumeController {
   }
 
   // Add Professional Skill
+  @UseGuards(AuthGuard)
   @Post(':id/professionalSkills')
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: ProfessionalSkillDto })
@@ -125,6 +136,7 @@ export class ResumeController {
   }
 
   // Update Professional Skill
+  @UseGuards(AuthGuard)
   @Put(':id/professionalSkills/:skillId')
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: ProfessionalSkillDto })
@@ -142,6 +154,7 @@ export class ResumeController {
   }
 
   // Delete Professional Skill
+  @UseGuards(AuthGuard)
   @Delete(':id/professionalSkills/:skillId')
   async removeProfessionalSkill(
     @Param('id') id: string,
@@ -152,6 +165,7 @@ export class ResumeController {
   }
 
   // Add Language
+  @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe())
   @Post(':id/languages')
   @ApiBody({ type: LanguageDto })
@@ -161,6 +175,7 @@ export class ResumeController {
   }
 
   // Update Language
+  @UseGuards(AuthGuard)
   @Put(':id/languages/:languageId')
   @Post(':id/languages')
   @ApiBody({ type: LanguageDto })
@@ -178,6 +193,7 @@ export class ResumeController {
   }
 
   // Delete Language
+  @UseGuards(AuthGuard)
   @Delete(':id/languages/:languageId')
   async removeLanguage(
     @Param('id') id: string,

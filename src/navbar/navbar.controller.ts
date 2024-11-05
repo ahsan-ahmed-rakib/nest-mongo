@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -14,6 +15,7 @@ import { ApiBody, ApiTags } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import { FooterDto, HeaderDto, NavbarDto } from 'src/dto/Navbar.dto';
 import { NavbarService } from './navbar.service';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @ApiTags('Navbar')
 @Controller()
@@ -26,6 +28,7 @@ export class NavbarController {
     return this.navbarService.getHeader();
   }
 
+  @UseGuards(AuthGuard)
   @Post('header')
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: HeaderDto })
@@ -37,6 +40,7 @@ export class NavbarController {
     };
   }
 
+  @UseGuards(AuthGuard)
   @Get('header/:id')
   @UsePipes(new ValidationPipe())
   async getById(@Param('id') id: string) {
@@ -47,6 +51,7 @@ export class NavbarController {
     return this.navbarService.getHeaderById(id);
   }
 
+  @UseGuards(AuthGuard)
   @Patch('header/:id')
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: HeaderDto })
@@ -62,6 +67,7 @@ export class NavbarController {
     };
   }
 
+  @UseGuards(AuthGuard)
   @Delete('header/:id')
   @UsePipes(new ValidationPipe())
   async deleteHeader(@Param('id') id: string) {
@@ -81,6 +87,7 @@ export class NavbarController {
     return this.navbarService.getNavbar();
   }
 
+  @UseGuards(AuthGuard)
   @Post('navbar')
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: NavbarDto })
@@ -92,6 +99,7 @@ export class NavbarController {
     };
   }
 
+  @UseGuards(AuthGuard)
   @Get('navbar/:id')
   @UsePipes(new ValidationPipe())
   async getNavbarById(@Param('id') id: string) {
@@ -102,6 +110,7 @@ export class NavbarController {
     return this.navbarService.getNavbarById(id);
   }
 
+  @UseGuards(AuthGuard)
   @Patch('navbar/:id')
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: NavbarDto })
@@ -117,6 +126,7 @@ export class NavbarController {
     };
   }
 
+  @UseGuards(AuthGuard)
   @Delete('navbar/:id')
   @UsePipes(new ValidationPipe())
   async deleteNavbar(@Param('id') id: string) {
@@ -136,6 +146,7 @@ export class NavbarController {
     return this.navbarService.getFooter();
   }
 
+  @UseGuards(AuthGuard)
   @Post('footer')
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: FooterDto })
@@ -147,6 +158,7 @@ export class NavbarController {
     };
   }
 
+  @UseGuards(AuthGuard)
   @Get('footer/:id')
   @UsePipes(new ValidationPipe())
   async getFooterById(@Param('id') id: string) {
@@ -157,6 +169,7 @@ export class NavbarController {
     return this.navbarService.getFooterById(id);
   }
 
+  @UseGuards(AuthGuard)
   @Patch('footer/:id')
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: FooterDto })
@@ -172,6 +185,7 @@ export class NavbarController {
     };
   }
 
+  @UseGuards(AuthGuard)
   @Delete('footer/:id')
   @UsePipes(new ValidationPipe())
   async deleteFooter(@Param('id') id: string) {

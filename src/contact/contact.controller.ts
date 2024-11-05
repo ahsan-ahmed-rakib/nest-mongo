@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -14,6 +15,7 @@ import { ApiBody, ApiTags } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import { ContactDto } from 'src/dto/Contact.dto';
 import { ContactService } from './contact.service';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @ApiTags('Contact')
 @Controller('contact')
@@ -33,11 +35,13 @@ export class ContactController {
     return { message: 'Mail Sent Successfully', data: data };
   }
 
+  @UseGuards(AuthGuard)
   @Get(':id')
   async getContactById(@Param('id') id: string) {
     return this.contactService.getContactById(id);
   }
 
+  @UseGuards(AuthGuard)
   @Put(':id')
   @UsePipes(new ValidationPipe())
   @ApiBody({ type: ContactDto })
@@ -50,6 +54,7 @@ export class ContactController {
     return { message: 'Updated Successfully', data: data };
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   async deleteContact(@Param('id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);

@@ -68,6 +68,10 @@ export class SkillService {
     }
   }
 
+  async getAllTech() {
+    return await this.techModel.find()
+  }
+
   async createTech(techDto: TechDto) {
     return await new this.techModel(techDto).save();
   }

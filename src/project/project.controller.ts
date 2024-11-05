@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
@@ -17,6 +18,7 @@ import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import { ProjectDto } from 'src/dto/Project.dto';
 import { ProjectService } from './project.service';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @ApiTags('Project')
 @Controller('project')
@@ -28,6 +30,7 @@ export class ProjectController {
     return this.projectService.getProject();
   }
 
+  @UseGuards(AuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
@@ -42,11 +45,13 @@ export class ProjectController {
     return { message: 'Created Successfully', data: data };
   }
 
+  @UseGuards(AuthGuard)
   @Get(':id')
   async getProjectById(@Param('id') id: string) {
     return this.projectService.getProjectById(id);
   }
 
+  @UseGuards(AuthGuard)
   @Put(':id')
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
@@ -84,6 +89,7 @@ export class ProjectController {
     return { message: 'Updated Successfully', data: updatedData };
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   async deleteProject(@Param('id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);

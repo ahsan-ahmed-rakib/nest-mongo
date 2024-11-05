@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
@@ -17,12 +18,14 @@ import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import { HomeDto } from 'src/dto/Home.dto';
 import { HomeService } from './home.service';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @ApiTags('Home')
 @Controller('home')
 export class HomeController {
   constructor(private homeService: HomeService) {}
 
+  @UseGuards(AuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
@@ -41,6 +44,7 @@ export class HomeController {
     return this.homeService.getHome();
   }
 
+  @UseGuards(AuthGuard)
   @Put(':id')
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
@@ -80,6 +84,7 @@ export class HomeController {
     return { message: 'Updated Successfully', data: updateHome };
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   async deleteHome(@Param('id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
