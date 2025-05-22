@@ -7,7 +7,6 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -15,10 +14,9 @@ import { ApiBody, ApiTags } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import { CreateUserDto } from 'src/dto/CreateUser.dto';
 import { UpdateUserDto } from 'src/dto/UpdateUser.dto';
-import { AuthGuard } from 'src/guards/auth.guard';
 import { UsersService } from './users.service';
 
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {

@@ -30,7 +30,7 @@ async function bootstrap() {
     )
     .addSecurityRequirements('jwt')
     .build();
-    
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
 
