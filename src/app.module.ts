@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { ContactModule } from './contact/contact.module';
 import { HomeModule } from './home/home.module';
 import { NavbarModule } from './navbar/navbar.module';
+import { ProfileModule } from './profile/profile.module';
 import { ProjectModule } from './project/project.module';
 import { ResumeModule } from './resume/resume.module';
 import { SkillModule } from './skill/skill.modul';
@@ -26,6 +27,7 @@ dotenv.config();
     ProjectModule,
     ResumeModule,
     ContactModule,
+    ProfileModule,
   ],
   controllers: [],
   providers: [],
