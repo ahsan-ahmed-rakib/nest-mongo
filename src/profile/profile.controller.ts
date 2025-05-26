@@ -3,7 +3,9 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
+  Put,
   UploadedFile,
   UseInterceptors,
   UsePipes,
@@ -34,10 +36,33 @@ export class ProfileController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     if (!file) throw new BadRequestException('File is required!');
-    const data = this.profileService.createProfile(profileDto, file);
+    const data = await this.profileService.createProfile(profileDto, file);
     return {
-      data: data,
       message: 'Created Successfully',
+      data: data,
+    };
+  }
+
+  @Get(':id')
+  async getProfileById(@Param('id') id: string) {
+    return await this.profileService.getSingleProfile(id);
+  }
+
+  @Put(':id')
+  @UseInterceptors(FileInterceptor('file'))
+  @UsePipes(new ValidationPipe())
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: ProfileDto })
+  async updateProfile(
+    @Param('id') id: string,
+    @Body() profileDto: ProfileDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    const data = await this.profileService.updateProfile(id, file, profileDto);
+
+    return {
+      message: 'Updated Successfully',
+      data: data,
     };
   }
 }

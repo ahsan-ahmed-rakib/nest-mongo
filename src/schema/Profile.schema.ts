@@ -6,9 +6,6 @@ export class Profile {
   name: string;
 
   @Prop({ required: false })
-  profilePictureId: string;
-
-  @Prop({ required: false })
   profilePicture: string;
 
   @Prop({ required: true })
@@ -16,6 +13,12 @@ export class Profile {
 
   @Prop({ required: true })
   cvUrl: string;
+
+  @Prop()
+  createdAt: Date;
+
+  @Prop()
+  updaetdAt: Date;
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile);

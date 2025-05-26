@@ -1,16 +1,11 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString, IsUrl } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
 
 export class ProfileDto {
   @IsNotEmpty()
   @IsString()
   @ApiProperty({ required: true })
   name: string;
-
-  @IsString()
-  @IsUrl()
-  @IsOptional()
-  profilePictureId: string;
 
   @ApiProperty({
     type: 'string',
@@ -29,4 +24,10 @@ export class ProfileDto {
   @IsUrl()
   @ApiProperty({ required: true })
   cvUrl: string;
+
+  @ApiPropertyOptional({ type: String, format: 'date-time' })
+  createdAt: Date;
+
+  @ApiPropertyOptional({ type: String, format: 'date-time' })
+  updatedAt: Date;
 }

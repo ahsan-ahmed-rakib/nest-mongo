@@ -15,8 +15,8 @@ async function bootstrap() {
 
   //swagger
   const config = new DocumentBuilder()
-    .setTitle('API Documentation')
-    .setDescription('API documentation for my Nest.js application')
+    .setTitle("Rakib's Portfolio")
+    .setDescription('Nest JS and MongoDB')
     .setVersion('1.0')
     .addBearerAuth(
       {
