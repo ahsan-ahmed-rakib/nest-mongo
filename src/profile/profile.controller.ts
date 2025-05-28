@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -21,11 +22,6 @@ import { ProfileService } from './profile.service';
 export class ProfileController {
   constructor(private profileService: ProfileService) {}
 
-  @Get()
-  async getProfile() {
-    return await this.profileService.getProfile();
-  }
-
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
@@ -41,6 +37,11 @@ export class ProfileController {
       message: 'Created Successfully',
       data: data,
     };
+  }
+
+  @Get()
+  async getProfile() {
+    return await this.profileService.getProfile();
   }
 
   @Get(':id')
@@ -64,5 +65,11 @@ export class ProfileController {
       message: 'Updated Successfully',
       data: data,
     };
+  }
+
+  @Delete(':id')
+  async deleteProfile(@Param('id') id: string) {
+    await this.profileService.deleteProfile(id);
+    return { message: 'Deleted Successfully', id: id };
   }
 }

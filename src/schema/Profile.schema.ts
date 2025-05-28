@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-@Schema()
+@Schema({ timestamps: true })
 export class Profile {
   @Prop({ required: true })
   name: string;
@@ -13,12 +13,6 @@ export class Profile {
 
   @Prop({ required: true })
   cvUrl: string;
-
-  @Prop()
-  createdAt: Date;
-
-  @Prop()
-  updaetdAt: Date;
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile);

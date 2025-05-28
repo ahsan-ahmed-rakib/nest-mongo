@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
 
 export class ProfileDto {
@@ -24,10 +24,4 @@ export class ProfileDto {
   @IsUrl()
   @ApiProperty({ required: true })
   cvUrl: string;
-
-  @ApiPropertyOptional({ type: String, format: 'date-time' })
-  createdAt: Date;
-
-  @ApiPropertyOptional({ type: String, format: 'date-time' })
-  updatedAt: Date;
 }
