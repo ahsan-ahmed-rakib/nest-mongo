@@ -25,7 +25,7 @@ export class ProfileService {
     file: Express.Multer.File,
   ): Promise<Profile> {
     if (!file) throw new Error('Profile picture is required');
-    const imageUploadResult = await this.imageService.uploadImage(file);
+    const imageUploadResult = await this.imageService.uploadImage(file, [1, 1]);
     const data = new this.profileModel({
       ...profileDto,
       profilePicture: imageUploadResult.secure_url,
@@ -61,9 +61,10 @@ export class ProfileService {
         await this.imageService.deleteImage(profileId);
       }
 
-      const uploadResult = await this.imageService.uploadImage(file);
+      const uploadResult = await this.imageService.uploadImage(file, [1, 1]);
       profilePicture = uploadResult.secure_url;
     }
+
     const updateProfile = await this.profileModel.findByIdAndUpdate(
       id,
       {

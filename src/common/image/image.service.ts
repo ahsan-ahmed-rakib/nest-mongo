@@ -1,10 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UploadApiResponse } from 'cloudinary';
+import * as sharp from 'sharp';
 import cloudinary from 'src/cloudinary/cloudinary.config';
 
 @Injectable()
 export class ImageService {
-  async uploadImage(file: Express.Multer.File): Promise<UploadApiResponse> {
+  async uploadImage(
+    file: Express.Multer.File,
+    ratio?: [number, number],
+  ): Promise<UploadApiResponse> {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+
+    if (!allowedTypes.includes(file.mimetype)) {
+      throw new BadRequestException(
+        'Only JPG, JPEG and PNG formats are allowed',
+      );
+    }
+
+    if (ratio) {
+      const metadata = await sharp(file.buffer).metadata();
+      const { width, height } = metadata;
+
+      if (!width || !height)
+        throw new BadRequestException('Image ratio not valid');
+
+      const [expectedWidth, expectedHeight] = ratio;
+      const actualRatio = width / height;
+      const expectedRatio = expectedWidth / expectedHeight;
+
+      const tolerance = 0.01;
+      if (Math.abs(actualRatio - expectedRatio) > tolerance) {
+        throw new BadRequestException(
+          `Image must have a ${expectedWidth}:${expectedHeight} aspect ratio.`,
+        );
+      }
+    }
+
     return new Promise((resolve, reject) => {
       cloudinary.uploader
         .upload_stream({ folder: 'profile' }, (error, result) => {
