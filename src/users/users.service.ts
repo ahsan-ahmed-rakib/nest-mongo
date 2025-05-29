@@ -36,7 +36,7 @@ export class UsersService {
       updateUserDto.password = hashedPassword; // Replace with the hashed password
     }
     return this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true });
-  }
+  } 
 
   async deleteUser(id: string) {
     const userCount = await this.userModel.countDocuments();

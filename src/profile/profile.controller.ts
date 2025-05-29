@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
@@ -15,6 +16,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { ProfileDto } from 'src/dto/Profile.dto';
+import { AuthGuard } from 'src/guards/auth.guard';
 import { ProfileService } from './profile.service';
 
 @ApiTags('Profile')
@@ -22,6 +24,7 @@ import { ProfileService } from './profile.service';
 export class ProfileController {
   constructor(private profileService: ProfileService) {}
 
+  @UseGuards(AuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
@@ -44,11 +47,13 @@ export class ProfileController {
     return await this.profileService.getProfile();
   }
 
+  @UseGuards(AuthGuard)
   @Get(':id')
   async getProfileById(@Param('id') id: string) {
     return await this.profileService.getSingleProfile(id);
   }
 
+  @UseGuards(AuthGuard)
   @Put(':id')
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe())
@@ -67,6 +72,7 @@ export class ProfileController {
     };
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   async deleteProfile(@Param('id') id: string) {
     await this.profileService.deleteProfile(id);

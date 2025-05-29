@@ -6,6 +6,7 @@ import * as dotenv from 'dotenv';
 import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
 import { UsersModule } from './users/users.module';
+import { SocialsModule } from './socials/socials.module';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ dotenv.config();
     AuthModule,
     UsersModule,
     ProfileModule,
+    SocialsModule,
   ],
   controllers: [],
   providers: [],
