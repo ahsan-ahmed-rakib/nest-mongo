@@ -4,9 +4,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import * as cors from 'cors';
 import * as dotenv from 'dotenv';
 import { AuthModule } from './auth/auth.module';
+import { PortfolioTextsModule } from './portfolio-texts/portfolio-texts.module';
 import { ProfileModule } from './profile/profile.module';
-import { UsersModule } from './users/users.module';
 import { SocialsModule } from './socials/socials.module';
+import { UsersModule } from './users/users.module';
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ dotenv.config();
     UsersModule,
     ProfileModule,
     SocialsModule,
+    PortfolioTextsModule,
   ],
   controllers: [],
   providers: [],
